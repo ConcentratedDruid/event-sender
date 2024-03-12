@@ -1,5 +1,5 @@
 {
-    "name": "event sender",
+    "name": "event sender_stabalise",
     "description": "",
     "dependencies": {
         "core": "*",

@@ -16,16 +16,16 @@ function start_stabilze () {
     angle_threshhold = 5
 }
 function servo_limit () {
-    if (S1Angle < 0) {
-        S1Angle = 0
-    } else if (S1Angle > 180) {
-        S1Angle = 180
-    } else if (S2Angle < 0) {
-        S2Angle = 0
+    if (S1Angle < 1) {
+        S1Angle = 1
+    } else if (S1Angle > 179) {
+        S1Angle = 179
+    } else if (S2Angle < 1) {
+        S2Angle = 1
     } else if (S2Angle > 179) {
         S2Angle = 179
-    } else if (S3Angle < 0) {
-        S3Angle = 0
+    } else if (S3Angle < 1) {
+        S3Angle = 1
     } else if (S3Angle > 179) {
         S3Angle = 179
     } else {
@@ -43,7 +43,7 @@ input.onButtonPressed(Button.B, function () {
     	
     }
 })
-input.onLogoEvent(TouchButtonEvent.Pressed, function () {
+input.onLogoEvent(TouchButtonEvent.Touched, function () {
     if (S_Sel == 3) {
         S_Sel = 1
     } else {
@@ -78,6 +78,9 @@ basic.forever(function () {
     angle_sum = S1Angle + angle_sum
     angle_count = angle_count + 1
     servo_limit()
+    serial.writeValue("S1", S1Angle)
+    serial.writeValue("S2", S2Angle)
+    serial.writeValue("S3", S3Angle)
     if (angle_count == 5) {
         average_angle = angle_sum / angle_count
         if (Math.abs(average_angle - last_average_angle) > angle_threshhold) {
